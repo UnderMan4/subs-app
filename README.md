@@ -1,2 +1,2 @@
-# subs-app
+#subs-app
 subscription and expense management app
