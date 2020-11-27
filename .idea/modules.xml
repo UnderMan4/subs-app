@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$USER_HOME$/AppData/Roaming/Subs-App/.idea/Subs-App.iml" filepath="$USER_HOME$/AppData/Roaming/Subs-App/.idea/Subs-App.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/subs-app.iml" filepath="$PROJECT_DIR$/.idea/subs-app.iml" />
     </modules>
   </component>
