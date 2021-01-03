@@ -1,15 +1,11 @@
 {
-  "data": [
-    {
-      "subscriptions": [],
-      "expenses": [],
-      "lists": [
-        {
-          "categories": [],
-          "platforms": [],
-          "places": []
-        }
-      ]
+  "data":{
+    "subscriptions": [],
+    "expenses": [],
+    "lists":{
+      "categories": [],
+      "platforms": [],
+      "places": []
     }
-  ]
+  }
 }

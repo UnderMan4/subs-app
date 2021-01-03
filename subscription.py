@@ -1,4 +1,3 @@
-import json
 
 class subscription ():
     name: str
@@ -20,7 +19,4 @@ class subscription ():
         self.category = category
         self.number_of_payments = number_of_payments
         self.expiration_date = expiration_date
-
-    def __del__(self):
-        pass
 

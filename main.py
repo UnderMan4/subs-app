@@ -2,6 +2,7 @@ import json
 import os.path
 from os import path
 from subscription import subscription as sub
+from expense import expense as exp
 from urllib.request import urlopen
 import data_manipulation as dm
 import gui
@@ -51,9 +52,21 @@ if not os.path.isfile('data.json'):
 #
 # subscriptions.append(sub('Netflix', 'Monday', 59.99, 'Netflix.com'))
 item = sub('Google 100 GB', '15', 8.99, 'Google.com')
-
-# print(dm.get_data_from_file('sub'))
-dm.add_element('sub', item)
+item2 = exp('party shopping', '15.06.2020', 53.65, 'Lidl')
+item3 = exp('cośtam', '17.11.2020', 35.82)
+print(dm.get_data_from_file('sub'))
+# dm.add_element('sub', item)
+# dm.add_element('exp', item2)
+# dm.add_element('exp', item3)
+# dm.add_element('cat', 'movies')
+# dm.add_element('cat', 'food')
+# dm.add_element('plc', 'Żabka')
+# dm.add_element('plc', 'Biedronka')
+# dm.add_element('plc', 'Lidl')
+# dm.add_element('plt', 'Netflix')
+# dm.add_element('plt', 'Google')
+# dm.add_element('plt', 'Amazon')
+# dm.add_element('plt', 'Spotify')
 # # with open('subscriptions.json', 'w') as sub_file:
 # #     json.dumps(subscriptions)
 #     # for sub in subscriptions:
