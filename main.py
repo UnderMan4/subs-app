@@ -1,6 +1,10 @@
 import json
 import os.path
 from os import path
+from subscription import subscription as sub
+from urllib.request import urlopen
+import data_manipulation as dm
+import gui
 
 # appdata = os.getenv('APPDATA') + '\Subs-App'
 # print(appdata)
@@ -9,11 +13,57 @@ os.chdir(os.getenv('APPDATA'))
 if not path.exists('Subs-App'):
     os.mkdir('Subs-App')
 os.chdir('Subs-App')
-print(os.getcwd())
+
+
+if not os.path.isfile('data.json'):
+    with urlopen("https://raw.githubusercontent.com/UnderMan4/subs-app/main/empty_data.json") as nf:
+        file = json.loads(nf.read())
+        # print(str(nf.read()))
+        with open('data.json', 'w') as lf:
+            # print(type(nf.read()))
+            # lf.write(str(nf.read()))
+            # print(json.dumps(file, indent=2))
+            lf.write(json.dumps(file, indent=2))
+            del file
+            # for line in nf.read():
+            #     print(line)
+                # lf.write(line)
+
+# f = urlopen('https://raw.githubusercontent.com/UnderMan4/subs-app/main/empty_data.json')
+# print(f.read())
+# print(type(f))
 
 
 
 
+# if os.path.isfile('data.json'):
+#     with open('data.json'):
+#         file = json.load('data.json')
+# else:
+#     with urlopen("https://raw.githubusercontent.com/UnderMan4/subs-app/main/empty_data.json") as f:
+#         file = f.read()
+# # print(os.getcwd())
+# # print(file)
+# data = json.loads(file)
+# print(json.dumps(data, indent=2))
+
+# subscriptions = []
+#
+# subscriptions.append(sub('Netflix', 'Monday', 59.99, 'Netflix.com'))
+item = sub('Google 100 GB', '15', 8.99, 'Google.com')
+
+# print(dm.get_data_from_file('sub'))
+dm.add_element('sub', item)
+# # with open('subscriptions.json', 'w') as sub_file:
+# #     json.dumps(subscriptions)
+#     # for sub in subscriptions:
+#     #     json.dump(sub.__dict__, sub_file, separators=(', \n', ': '))
+#
+# x = list([])
+# x.lappend(sub('Netflix', 'Monday', 59.99, 'Netflix.com'))
+# x.lappend(sub('Google 100 GB', '15', 8.99, 'Google.com'))
+# with open('subscription.json', 'w') as file:
+#     json.dump(x.__dict__, file, indent=4)
 
 # class subscribtion():
 #     def __init__(self, platform, category, name, date, price):
