@@ -6,6 +6,7 @@ from expense import expense as exp
 from urllib.request import urlopen
 import data_manipulation as dm
 import gui
+import stats
 
 # appdata = os.getenv('APPDATA') + '\Subs-App'
 # print(appdata)
@@ -28,7 +29,7 @@ if not os.path.isfile('data.json'):
             del file
             # for line in nf.read():
             #     print(line)
-                # lf.write(line)
+            #       lf.write(line)
 
 # f = urlopen('https://raw.githubusercontent.com/UnderMan4/subs-app/main/empty_data.json')
 # print(f.read())
@@ -51,10 +52,10 @@ if not os.path.isfile('data.json'):
 # subscriptions = []
 #
 # subscriptions.append(sub('Netflix', 'Monday', 59.99, 'Netflix.com'))
-item = sub('Google 100 GB', '15', 8.99, 'Google.com')
-item2 = exp('party shopping', '15.06.2020', 53.65, 'Lidl')
-item3 = exp('cośtam', '17.11.2020', 35.82)
-print(dm.get_data_from_file('sub'))
+# item = sub('Google 100 GB', '15', 8.99, 'Google.com')
+# item2 = exp('party shopping', '15.06.2020', 53.65, 'Lidl')
+# item3 = exp('costam', '17.11.2020', 35.82)
+# print(dm.get_data_from_file('sub'))
 # dm.add_element('sub', item)
 # dm.add_element('exp', item2)
 # dm.add_element('exp', item3)
@@ -93,3 +94,9 @@ print(dm.get_data_from_file('sub'))
 #
 # with open('subscription.json', 'w') as json_file:
 #     json.dump(s1.__dict__, json_file, separators=(', \n', ': '))
+
+# print(stats.get_monthly_subs())
+# stats.get_expenses_period('2014')
+# print(stats.get_expenses("2020", place="Lidl"))
+# print(dm.search('exp', 'Lidl'))
+# stats.plot_stats_subscriptions()

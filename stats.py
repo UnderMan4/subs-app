@@ -1,6 +1,7 @@
 import json
-import data_manipulation as dm
 import re
+import matplotlib.pyplot as plt
+import data_manipulation as dm
 
 
 def get_monthly_subs():
@@ -114,3 +115,30 @@ def get_expenses(period, place=None, category=None):
 
     # print('{:.2f}'.format(sum))
     return '{:.2f}'.format(sum)
+
+def plot_stats_subscriptions():
+    list = dm.get_data_from_file('sub')
+    print(list)
+    fig = plt.figure(figsize=(13, 6))
+    by_category_pie = fig.add_subplot(221)
+    bx = fig.add_subplot(222)
+    cx = fig.add_subplot(223)
+    dx = fig.add_subplot(224)
+
+    by_category_amount = []
+
+    for elem in dm.get_data_from_file('cat'):
+        amount = 0
+        # print(type(elem))
+        for sub_elem in list:
+            # print(sub_elem['category'])
+            if sub_elem['category'] == elem:
+                amount += 1
+        print(amount)
+        by_category_amount.append(amount)
+    print(by_category_amount)
+
+    by_category_pie.pie(by_category_amount)
+    # by_category_pie.tight_layout()
+    fig.tight_layout()
+    plt.show()

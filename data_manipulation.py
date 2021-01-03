@@ -1,6 +1,7 @@
 import json
 from subscription import subscription
 from expense import expense
+import re
 
 
 def get_data_from_file(list_name):
@@ -17,32 +18,30 @@ def get_data_from_file(list_name):
         for elem in data['data']['subscriptions']:
             list.append(data['data']['subscriptions'][elem])
         return list
-    
+
     if list_name == 'exp':
         list = []
         for elem in data['data']['expenses']:
             list.append(data['data']['expenses'][elem])
         return list
-    
+
     if list_name == 'cat':
         list = []
         for elem in data['data']['lists']['categories']:
             list.append(data['data']['lists']['categories'][elem])
         return list
-    
+
     if list_name == 'plt':
         list = []
         for elem in data['data']['lists']['platforms']:
             list.append(data['data']['lists']['platforms'][elem])
         return list
-    
+
     if list_name == 'plc':
         list = []
         for elem in data['data']['lists']['places']:
             list.append(data['data']['lists']['places'][elem])
         return list
-    
-    
 
 
 def add_element(list_name, element):
@@ -65,10 +64,10 @@ def add_element(list_name, element):
         # print(list)
         # print(len(list))
         # print(data)
-        temp = zip(range(1, len(list)+1), list)
+        temp = zip(range(1, len(list) + 1), list)
         data['data']['subscriptions'] = dict(temp)
         del temp
-        
+
     if list_name == 'exp':
         if not isinstance(element, expense):
             raise ValueError('type of element is {}, but it must be <class \'expense\'>'.format(type(element)))
@@ -78,10 +77,10 @@ def add_element(list_name, element):
         list.append(element.__dict__)
         # print(list)
         # print(len(list))
-        temp = zip(range(1, len(list)+1), list)
+        temp = zip(range(1, len(list) + 1), list)
         data['data']['expenses'] = dict(temp)
         del temp
-            
+
     if list_name == 'cat':
         if not isinstance(element, str):
             raise ValueError('type of element is {}, but it must be <class \'str\'>'.format(type(element)))
@@ -91,7 +90,7 @@ def add_element(list_name, element):
         list.append(element)
         # print(list)
         # print(len(list))
-        temp = zip(range(1, len(list)+1), list)
+        temp = zip(range(1, len(list) + 1), list)
         data['data']['lists']['categories'] = dict(temp)
         del temp
 
@@ -104,7 +103,7 @@ def add_element(list_name, element):
         list.append(element)
         # print(list)
         # print(len(list))
-        temp = zip(range(1, len(list)+1), list)
+        temp = zip(range(1, len(list) + 1), list)
         data['data']['lists']['platforms'] = dict(temp)
         del temp
 
@@ -117,14 +116,35 @@ def add_element(list_name, element):
         list.append(element)
         # print(list)
         # print(len(list))
-        temp = zip(range(1, len(list)+1), list)
+        temp = zip(range(1, len(list) + 1), list)
         data['data']['lists']['places'] = dict(temp)
         del temp
 
-    
-        
-        
     # data_json = json.dumps(data, indent=2)
     # print(data_json)
     with open('data.json', 'w') as f:
         f.write(json.dumps(data, indent=2))
+
+
+def search(list_name, value):
+    list = get_data_from_file(list_name)
+    temp = []
+    for elem in list:
+        # print(type(elem))
+        temp_elem = elem.values()
+        # print(temp_elem)
+        # r = re.compile(f'{value}')
+        # if any(r.match(temp_elem)) for item in temp_elem:
+        #     temp.append(elem)
+        # if bool(re.search(f'{value}', ' ')):
+        check = False
+        for item in temp_elem:
+            # print(str(item))
+            # print(type(item))
+            # print(item)
+            if bool(re.match(f'{value}', str(item))):
+                check = True
+        if check is True:
+            temp.append(elem)
+
+    return temp
