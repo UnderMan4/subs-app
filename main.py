@@ -7,6 +7,7 @@ from urllib.request import urlopen
 import data_manipulation as dm
 import gui
 import stats
+import random
 
 # appdata = os.getenv('APPDATA') + '\Subs-App'
 # print(appdata)
@@ -100,3 +101,13 @@ if not os.path.isfile('data.json'):
 # print(stats.get_expenses("2020", place="Lidl"))
 # print(dm.search('exp', 'Lidl'))
 # stats.plot_stats_subscriptions()
+# for i in range(30):
+#     name = str(i)
+#     d = random.randint(1, 28)
+#     m = random.randint(1, 12)
+#     y = random.randint(2010, 2020)
+#     datee = f'{d}.{m}.{y}'
+#     amount = random.randint(100, 15000)/100
+#     place = random.choice(['Zabka', 'Biedronka', 'Lidl', 'Dino', 'Lewiatan'])
+#     category = random.choice(['movies', 'food', 'drink', 'alcohol', 'books', 'music'])
+#     dm.add_element('exp', exp(name=name, date=datee, amount=amount, place=place, category=category))
