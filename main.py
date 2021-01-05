@@ -99,7 +99,7 @@ if not os.path.isfile('data.json'):
 # print(stats.get_monthly_subs())
 # stats.get_expenses_period('2014')
 # print(stats.get_expenses("", place="Lidl"))
-# print(dm.search('exp', 'Lidl'))
+# print(dm.search('exp', '2015'))
 # stats.plot_stats_subscriptions()
 # for i in range(90):
 #     name = str(i)
@@ -112,4 +112,4 @@ if not os.path.isfile('data.json'):
 #     category = random.choice(['movies', 'food', 'drink', 'alcohol', 'books', 'music'])
 #     dm.add_element('exp', exp(name=name, date=datee, amount=amount, place=place, category=category))
 # stats.plot_period_stats_expenses('12.2015', '12.2018', category='food', place='Lewiatan')
-stats.plot_stats_expenses('12.2015', '08.2016')
+# stats.plot_stats_expenses('2010', '2016')

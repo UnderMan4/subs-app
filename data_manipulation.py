@@ -142,7 +142,7 @@ def search(list_name, value):
             # print(str(item))
             # print(type(item))
             # print(item)
-            if bool(re.match(f'{value}', str(item))):
+            if bool(re.match(f'.*{value}.*', str(item))):
                 check = True
         if check is True:
             temp.append(elem)
