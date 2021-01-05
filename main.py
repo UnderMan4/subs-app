@@ -98,16 +98,18 @@ if not os.path.isfile('data.json'):
 
 # print(stats.get_monthly_subs())
 # stats.get_expenses_period('2014')
-# print(stats.get_expenses("2020", place="Lidl"))
+# print(stats.get_expenses("", place="Lidl"))
 # print(dm.search('exp', 'Lidl'))
 # stats.plot_stats_subscriptions()
-# for i in range(30):
+# for i in range(90):
 #     name = str(i)
 #     d = random.randint(1, 28)
 #     m = random.randint(1, 12)
-#     y = random.randint(2010, 2020)
-#     datee = f'{d}.{m}.{y}'
+#     y = random.randint(2017, 2020)
+#     datee = '{:02d}.{:02d}.{:04d}'.format(d, m, y)
 #     amount = random.randint(100, 15000)/100
 #     place = random.choice(['Zabka', 'Biedronka', 'Lidl', 'Dino', 'Lewiatan'])
 #     category = random.choice(['movies', 'food', 'drink', 'alcohol', 'books', 'music'])
 #     dm.add_element('exp', exp(name=name, date=datee, amount=amount, place=place, category=category))
+# stats.plot_period_stats_expenses('12.2015', '12.2018', category='food', place='Lewiatan')
+stats.plot_stats_expenses('12.2015', '08.2016')
