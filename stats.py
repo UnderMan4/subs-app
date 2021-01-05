@@ -302,3 +302,101 @@ def plot_stats_subscriptions():
     # fig.tight_layout()
     fig.subplots_adjust(top=0.85)
     plt.show()
+
+
+def plot_period_stats_expenses(start, end, place=None, category=None):
+    if not ((bool(re.match('\d\d\d\d', start)) and bool(re.match('\d\d\d\d', end))) or
+            (bool(re.match('\d\d\.\d\d\d\d', start)) and bool(re.match('\d\d\.\d\d\d\d', end)))):
+        raise ValueError('start and stop argument must both match same pattern '
+                         '\'\d\d\d\d\' or \'\d\d\.\d\d\d\d\'')
+    if place not in dm.get_data_from_file('plc') and place is not None:
+        raise ValueError('place argument must be in places list or equals None')
+    if category not in dm.get_data_from_file('cat') and category is not None:
+        raise ValueError('category argument must be in categories list or equals None')
+
+    fig = plt.figure(figsize=(17, 8))
+    dates_f = []
+    dates = []
+    values = []
+
+    if bool(re.match('\d\d\d\d', start)):
+        if (int(start) > int(end)):
+            raise ValueError('start year must be earlier than end year ')
+        for i in range(int(start), int(end)):
+            dates.append(str(i))
+        for elem in dates:
+            dates_f.append(elem + '     ')
+
+        if place is None and category is None:
+            fig.suptitle(f'Expenses yearly from {start} to {end}', fontsize=20)
+        elif place is None:
+            fig.suptitle(f'Expenses yearly from {start} to {end} for {category} category', fontsize=20)
+        elif category is None:
+            fig.suptitle(f'Expenses yearly from {start} to {end} in {place}', fontsize=20)
+        else:
+            fig.suptitle(f'Expenses yearly from {start} to {end} for {category} category in {place}', fontsize=20)
+
+        # for i, elem in enumerate(dates):
+        #     values.append(float(get_expenses(dates[i], place, category)))
+
+
+
+    if bool(re.match('\d\d\.\d\d\d\d', start)):
+        start_d = re.split('\.', start)
+        end_d = re.split('\.', end)
+        # print(start_d)
+        # print(end_d)
+        if int(start_d[1]) > int(end_d[1]):
+            raise ValueError('start month must be earlier than end month ')
+        elif int(start_d[1]) == int(end_d[1]) and int(start_d[0]) > int(end_d[0]):
+            raise ValueError('start month must be earlier than end month ')
+
+        month = int(start_d[0])
+        year = int(start_d[1])
+        print(start_d)
+        print(end_d)
+        while month != int(end_d[0]) or year != int(end_d[1]):
+            dates.append('{:02d}.{:04d}'.format(month, year))
+            print('{:02d}.{:04d}'.format(month, year))
+            if month == 12:
+                month = 1
+                year += 1
+            else:
+                month += 1
+        for elem in dates:
+            dates_f.append(elem + '          ')
+            # print(str(month) + '  ' + str(year))
+        if place is None and category is None:
+            fig.suptitle(f'Expenses monthly from {start} to {end}', fontsize=20)
+        elif place is None:
+            fig.suptitle(f'Expenses monthly from {start} to {end} for {category} category', fontsize=20)
+        elif category is None:
+            fig.suptitle(f'Expenses monthly from {start} to {end} in {place}', fontsize=20)
+        else:
+            fig.suptitle(f'Expenses monthly from {start} to {end} for {category} category in {place}', fontsize=20)
+
+    for i, elem in enumerate(dates):
+        values.append(float(get_expenses(dates[i], place, category)))
+
+
+    print(dates)
+    print(values)
+    plot = fig.add_subplot(111)
+    plot.bar(dates, values, zorder=3)
+    plt.minorticks_on()
+    for i, dat in enumerate(dates):
+        # plot.text(dat, 100, 'qwer', zorder=4)
+        # plot.annotate('{:.2f}'.format(values[i]) + '\n\n\n', (str(dat), 0), zorder=4, ha='center')
+        # plot.annotate('{:.2f}'.format(values[i]), (str(dat), float(values[i])), zorder=4,
+        #               ha='center', va='bottom', rotation='vertical',
+        #               textcoords='offset points', xytext=(0, 50))
+        plot.annotate('{:.2f}'.format(values[i]), (str(dat), float(values[i])), zorder=2,
+                      ha='center', va='center', rotation='horizontal',
+                      textcoords='offset points', xytext=(0, 7), backgroundcolor='w',
+                      color='#1F77B4', weight='bold', fontsize=8)
+    plot.grid(which='major', axis='y', zorder=0)
+    plot.grid(which='minor', axis='y', alpha=.3, zorder=0)
+    plot.set_xticks(dates)
+    plot.set_xticklabels(dates_f, rotation=45, ha='center', va='bottom', position=(10, -.08))
+
+    plt.show()
