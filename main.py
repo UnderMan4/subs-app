@@ -101,7 +101,7 @@ if not os.path.isfile('data.json'):
 # print(stats.get_expenses("", place="Lidl"))
 # print(dm.search('exp', '2015'))
 # stats.plot_stats_subscriptions()
-# for i in range(90):
+# for i in range(200):
 #     name = str(i)
 #     d = random.randint(1, 28)
 #     m = random.randint(1, 12)
@@ -111,5 +111,27 @@ if not os.path.isfile('data.json'):
 #     place = random.choice(['Zabka', 'Biedronka', 'Lidl', 'Dino', 'Lewiatan'])
 #     category = random.choice(['movies', 'food', 'drink', 'alcohol', 'books', 'music'])
 #     dm.add_element('exp', exp(name=name, date=datee, amount=amount, place=place, category=category))
+
+# for i in range(200):
+#     name = str(i)
+#     d = random.randint(1, 28)
+#     m = random.randint(1, 12)
+#     temp = random.randint(1, 2)
+#     if temp == 1:
+#         datee = '{:02d}'.format(d)
+#     if temp == 2:
+#         datee = '{:02d}.{:02d}'.format(d, m)
+#     amount = random.randint(100, 10000)/100
+#     temp = random.randint(1, 2)
+#     if temp == 1:
+#         active = True
+#     if temp == 2:
+#         active = False
+#     category = random.choice(['movies', 'storage', 'books', 'music'])
+#     platform = random.choice(['Netflix', 'Google', 'Amazon', 'Spotify', 'Empik.com'])
+#     dm.add_element('sub', sub(name, datee, amount, platform, active, category))
+
+# dm.delete_all('sub')
 # stats.plot_period_stats_expenses('12.2015', '12.2018', category='food', place='Lewiatan')
 # stats.plot_stats_expenses('2010', '2016')
+# dm.delete_element('sub', '1')

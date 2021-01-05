@@ -148,3 +148,52 @@ def search(list_name, value):
             temp.append(elem)
 
     return temp
+
+def delete_all(list_name):
+    valid = {'sub', 'exp', 'cat', 'plt', 'plc'}
+    if list_name not in valid:
+        raise ValueError('list_name argument must be one of %r.' % valid)
+    del valid
+    with open('data.json') as f:
+        data = json.load(f)
+    if list_name == 'sub':
+        data['data']['subscriptions'] = []
+    if list_name == 'exp':
+        data['data']['expenses'] = []
+    if list_name == 'cat':
+        data['data']['lists']['categories'] = []
+    if list_name == 'plt':
+        data['data']['lists']['platforms'] = []
+    if list_name == 'plc':
+        data['data']['lists']['places'] = []
+    with open('data.json', 'w') as f:
+        f.write(json.dumps(data, indent=2))
+
+
+
+
+def delete_element(list_name, name):
+    valid = {'sub', 'exp', 'cat', 'plt', 'plc'}
+    if list_name not in valid:
+        raise ValueError('list_name argument must be one of %r.' % valid)
+    del valid
+    list = get_data_from_file(list_name)
+    for i, elem in enumerate(list):
+        print(elem['name'])
+        if elem['name'] == name:
+            del list[i]
+            break
+    delete_all(list_name)
+    for elem in list:
+        if list_name == 'sub':
+            temp = subscription(elem['name'], elem['date'], elem['amount'],
+                                elem['platform'], elem['active'], elem['category'],
+                                elem['number_of_payments'], elem['expiration_date'])
+        elif list_name == 'exp':
+            temp = expense(elem['name'], elem['date'], elem['amount'],
+                           elem['place'], elem['category'])
+        else:
+            temp = name
+
+        add_element(list_name, temp)
+
