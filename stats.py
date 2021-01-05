@@ -167,7 +167,7 @@ def plot_stats_subscriptions():
     print(by_category_amount_copy)
     by_category_pie_all.pie(by_category_amount_copy, labels=by_category_amount_copy,
                             shadow=False, textprops={'alpha': 1}, explode=explode,
-                            labeldistance=.5, center=([10, 10]))
+                            labeldistance=.7, center=([10, 10]))
     # by_category_pie_all.
     # by_category_pie_all.margins(200, 200)
     by_category_pie_all.legend(categories_list, loc=[-.45, 0])
@@ -202,7 +202,7 @@ def plot_stats_subscriptions():
     print(by_platform_amount_copy)
     by_platform_pie_all.pie(by_platform_amount_copy, labels=by_platform_amount_copy,
                             shadow=False, textprops={'alpha': 1}, explode=explode,
-                            labeldistance=.5)
+                            labeldistance=.7)
     by_platform_pie_all.legend(platforms_list, loc=[-.60, 0])
     by_platform_pie_all.set_title('by platform (all)')
     # by_platform_pie_all.tight_layout()
@@ -224,7 +224,7 @@ def plot_stats_subscriptions():
 
     active_inactive_pie.pie(active_inactive_amount, labels=active_inactive_amount,
                             shadow=False, textprops={'alpha': 1}, explode=explode,
-                            labeldistance=.5)
+                            labeldistance=.7)
     active_inactive_pie.legend(active_inactive_label, loc=[-.45, 0])
     active_inactive_pie.set_title('active / inactive')
 
@@ -258,7 +258,7 @@ def plot_stats_subscriptions():
     print(by_category_amount_copy)
     by_category_pie_active.pie(by_category_amount_copy, labels=by_category_amount_copy,
                                shadow=False, textprops={'alpha': 1}, explode=explode,
-                               labeldistance=.5, center=([10, 10]))
+                               labeldistance=.7, center=([10, 10]))
     # by_category_pie_active.
     # by_category_pie_active.margins(200, 200)
     by_category_pie_active.legend(categories_list, loc=[-.45, 0])
@@ -293,7 +293,7 @@ def plot_stats_subscriptions():
     print(by_platform_amount_copy)
     by_platform_pie_active.pie(by_platform_amount_copy, labels=by_platform_amount_copy,
                                shadow=False, textprops={'alpha': 1}, explode=explode,
-                               labeldistance=.5)
+                               labeldistance=.7)
     by_platform_pie_active.legend(platforms_list, loc=[-.60, 0])
     by_platform_pie_active.set_title('by platform (active)')
     # by_platform_pie_active.tight_layout()
@@ -353,11 +353,11 @@ def plot_period_stats_expenses(start, end, place=None, category=None):
 
         month = int(start_d[0])
         year = int(start_d[1])
-        print(start_d)
-        print(end_d)
+        # print(start_d)
+        # print(end_d)
         while month != int(end_d[0]) or year != int(end_d[1]):
             dates.append('{:02d}.{:04d}'.format(month, year))
-            print('{:02d}.{:04d}'.format(month, year))
+            # print('{:02d}.{:04d}'.format(month, year))
             if month == 12:
                 month = 1
                 year += 1
@@ -379,8 +379,8 @@ def plot_period_stats_expenses(start, end, place=None, category=None):
         values.append(float(get_expenses(dates[i], place, category)))
 
 
-    print(dates)
-    print(values)
+    # print(dates)
+    # print(values)
     plot = fig.add_subplot(111)
     plot.bar(dates, values, zorder=3)
     plt.minorticks_on()
@@ -399,4 +399,350 @@ def plot_period_stats_expenses(start, end, place=None, category=None):
     plot.set_xticks(dates)
     plot.set_xticklabels(dates_f, rotation=45, ha='center', va='bottom', position=(10, -.08))
 
+    plt.show()
+
+def plot_stats_expenses(start, end):
+
+    if not ((bool(re.match('\d\d\d\d', start)) and bool(re.match('\d\d\d\d', end))) or
+            (bool(re.match('\d\d\.\d\d\d\d', start)) and bool(re.match('\d\d\.\d\d\d\d', end))) or
+            (bool(re.match('\d\d\.\d\d\.\d\d\d\d', start)) and bool(re.match('\d\d\.\d\d\.\d\d\d\d', end)))):
+        raise ValueError('start and stop argument must both match same pattern '
+                         '\'\d\d\d\d\', \'\d\d\.\d\d\d\d\' or \'\d\d\.\d\d\.\d\d\d\d\'')
+
+    today = date.today().strftime('%d.%m.%Y')
+    # print(today)
+    list = dm.get_data_from_file('exp')
+    # print(list)
+    fig = plt.figure(figsize=(13, 8))
+    fig.suptitle(f'Expenses from {start} to {end}', fontsize=23)
+    # fig.tight_layout()
+    by_category_pie_all = fig.add_subplot(221)
+    by_place_pie_all = fig.add_subplot(222)
+    # active_inactive_pie = fig.add_subplot(222)
+    by_category_pie_sum = fig.add_subplot(223)
+    by_place_pie_sum = fig.add_subplot(224)
+
+    explode_low = .3
+    explode_high = .04
+
+    list_period = []
+    if (bool(re.match('\d\d\d\d', start)) and bool(re.match('\d\d\d\d', end))):
+        # print('year')
+        for elem in list:
+            d = re.split('\.', elem['date'])
+            if int(d[2]) >= int(start) and int(d[2]) <= int(end):
+                list_period.append(elem)
+    if (bool(re.match('\d\d\.\d\d\d\d', start)) and bool(re.match('\d\d\.\d\d\d\d', end))):
+        # print('month')
+        start_f = re.split('\.', start)
+        end_f = re.split('\.', end)
+        for elem in list:
+            d = re.split('\.', elem['date'])
+            if int(d[-1]) >= int(start_f[-1]) and int(d[-1]) <= int(end_f[-1]):
+                # print(d[2], start_f[1], end_f[1] )
+                # print(d[1], start_f[0], end_f[0] )
+                if int(d[-1]) == int(start_f[-1]) and int(d[-2]) >= int(start_f[-2]):
+                    list_period.append(elem)
+                elif int(d[-1]) == int(end_f[-1]) and int(d[-2]) <= int(end_f[-2]):
+                    list_period.append(elem)
+                elif int(d[-1]) != int(start_f[-1]) and int(d[-1]) != int(end_f[-1]):
+                    list_period.append(elem)
+    if (bool(re.match('\d\d\.\d\d\.\d\d\d\d', start)) and bool(re.match('\d\d\.\d\d\.\d\d\d\d', end))):
+        # print('day')
+        start_f = re.split('\.', start)
+        end_f = re.split('\.', end)
+        for elem in list:
+            d = re.split('\.', elem['date'])
+            if int(d[-1]) >= int(start_f[-1]) and int(d[-1]) <= int(end_f[-1]):
+                if int(d[-1]) == int(start_f[-1]) and int(d[-2]) >= int(start_f[-2]):
+                    if int(d[-2]) == int(start_f[-2]) and int(d[-3]) >= int(start_f[-3]):
+                        list_period.append(elem)
+                    elif int(d[-2]) > int(start_f[-2]):
+                        list_period.append(elem)
+                if int(d[-1]) == int(end_f[-1]) and int(d[-2]) <= int(end_f[-2]):
+                    if int(d[-2]) == int(end_f[-2]) and int(d[-3]) <= int(end_f[-3]):
+                        list_period.append(elem)
+                    if int(d[-2]) < int(end_f[-2]):
+                        list_period.append(elem)
+                if int(d[-1]) != int(start_f[-1]) and int(d[-1]) != int(end_f[-1]):
+                    list_period.append(elem)
+
+
+
+
+
+
+
+    # for elem in list_period:
+        # print(elem['date'])
+
+
+        # print(d)
+        # if bool(re.match(f'{}'))
+
+    #######################################################
+    by_category_amount = []
+    list = list_period
+    for elem in dm.get_data_from_file('cat'):
+        amount = 0
+        # print(type(elem))
+        for sub_elem in list:
+            # print(sub_elem['category'])
+            if sub_elem['category'] == elem:
+                amount += 1
+        # print(amount)
+        by_category_amount.append(amount)
+    # print(by_category_amount)
+    by_category_amount_copy = []
+    categories_list = []
+    explode = []
+    for i, val in enumerate(by_category_amount):
+        if by_category_amount[i] != 0:
+            by_category_amount_copy.append(by_category_amount[i])
+            categories_list.append(dm.get_data_from_file('cat')[i])
+            # print(val / sum(by_category_amount))
+            if val / sum(by_category_amount) > 0.05:
+                explode.append(explode_high)
+            else:
+                explode.append(explode_low)
+    # print(explode)
+    # print(categories_list)
+    # print(by_category_amount_copy)
+    wedges, labels = by_category_pie_all.pie(by_category_amount_copy, labels=by_category_amount_copy,
+                                             shadow=False, textprops={'alpha': 1}, explode=explode,
+                                             labeldistance=.7, center=([10, 10]))
+    for label in labels:
+        label.set_horizontalalignment('center')
+    # by_category_pie_all.
+    # by_category_pie_all.margins(200, 200)
+    by_category_pie_all.legend(categories_list, loc=[-.45, 0])
+    by_category_pie_all.set_title('by category (number)')
+    # by_category_pie_all.tight_layout()
+    #########################################################
+
+    by_place_amount = []
+
+    for elem in dm.get_data_from_file('plc'):
+        amount = 0
+        # print(type(elem))
+        for sub_elem in list:
+            # print(sub_elem['place'])
+            if sub_elem['place'] == elem:
+                amount += 1
+        # print(amount)
+        by_place_amount.append(amount)
+    # print(by_place_amount)
+    by_place_amount_copy = []
+    places_list = []
+    explode = []
+    for i, val in enumerate(by_place_amount):
+        if by_place_amount[i] != 0:
+            by_place_amount_copy.append(by_place_amount[i])
+            places_list.append(dm.get_data_from_file('plc')[i])
+            if val / sum(by_category_amount) > 0.05:
+                explode.append(explode_high)
+            else:
+                explode.append(explode_low)
+    # print(places_list)
+    # print(by_place_amount_copy)
+    wedges, labels = by_place_pie_all.pie(by_place_amount_copy, labels=by_place_amount_copy,
+                                          shadow=False, textprops={'alpha': 1}, explode=explode,
+                                          labeldistance=.7)
+    for label in labels:
+        label.set_horizontalalignment('center')
+    by_place_pie_all.legend(places_list, loc=[-.60, 0])
+    by_place_pie_all.set_title('by place (number)')
+    # by_place_pie_all.tight_layout()
+    ##################################################################
+
+    #######################################################
+    by_category_amount = []
+    list = list_period
+    for elem in dm.get_data_from_file('cat'):
+        amount = 0
+        # print(type(elem))
+        for sub_elem in list:
+            # print(sub_elem['category'])
+            if sub_elem['category'] == elem:
+                amount += sub_elem['amount']
+        # print(amount)
+        by_category_amount.append(amount)
+    # print(by_category_amount)
+    by_category_amount_copy = []
+    categories_list = []
+    explode = []
+    for i, val in enumerate(by_category_amount):
+        if by_category_amount[i] != 0:
+            by_category_amount_copy.append(by_category_amount[i])
+            categories_list.append(dm.get_data_from_file('cat')[i])
+            # print(val / sum(by_category_amount))
+            if val / sum(by_category_amount) > 0.05:
+                explode.append(explode_high)
+            else:
+                explode.append(explode_low)
+    # print(explode)
+    # print(categories_list)
+    # print(by_category_amount_copy)
+    by_category_amount_copy_label = []
+    for elem in by_category_amount_copy:
+        by_category_amount_copy_label.append('{:.2f} zł'.format(elem))
+    wedges, labels = by_category_pie_sum.pie(by_category_amount_copy, labels=by_category_amount_copy_label,
+                                             shadow=False, textprops={'alpha': 1}, explode=explode,
+                                             labeldistance=.7, center=([10, 10]))
+    for label in labels:
+        label.set_horizontalalignment('center')
+    # by_category_pie_all.
+    # by_category_pie_all.margins(200, 200)
+    by_category_pie_sum.legend(categories_list, loc=[-.45, 0])
+    by_category_pie_sum.set_title('by category (amount)')
+    # by_category_pie_all.tight_layout()
+    #########################################################
+
+    by_place_amount = []
+
+    for elem in dm.get_data_from_file('plc'):
+        amount = 0
+        # print(type(elem))
+        for sub_elem in list:
+            # print(sub_elem['place'])
+            if sub_elem['place'] == elem:
+                amount += sub_elem['amount']
+        # print(amount)
+        by_place_amount.append(amount)
+    # print(by_place_amount)
+    by_place_amount_copy = []
+    places_list = []
+    explode = []
+    for i, val in enumerate(by_place_amount):
+        if by_place_amount[i] != 0:
+            by_place_amount_copy.append(by_place_amount[i])
+            places_list.append(dm.get_data_from_file('plc')[i])
+            if val / sum(by_category_amount) > 0.05:
+                explode.append(explode_high)
+            else:
+                explode.append(explode_low)
+    # print(places_list)
+    # print(by_place_amount_copy)
+    by_place_amount_copy_label = []
+    for elem in by_place_amount_copy:
+        by_place_amount_copy_label.append('{:.2f} zł'.format(elem))
+    wedges, labels = by_place_pie_sum.pie(by_place_amount_copy, labels=by_place_amount_copy_label,
+                                          shadow=False, textprops={'alpha': 1}, explode=explode,
+                                          labeldistance=.7)
+    for label in labels:
+        label.set_horizontalalignment('center')
+    by_place_pie_sum.legend(places_list, loc=[-.60, 0])
+    by_place_pie_sum.set_title('by place (amount)')
+    # by_place_pie_all.tight_layout()
+    ##################################################################
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    # active_inactive_label = ['active', 'inactive']
+    # explode = [.04, .04]
+    # active = 0
+    # inactive = 0
+    # for elem in dm.get_data_from_file('sub'):
+    #     # print(elem['active'])
+    #     if elem['active'] is True:
+    #         active += 1
+    #         print(True)
+    #     else:
+    #         inactive += 1
+    #         print(False)
+    # active_inactive_amount = [active, inactive]
+    #
+    # active_inactive_pie.pie(active_inactive_amount, labels=active_inactive_amount,
+    #                         shadow=False, textprops={'alpha': 1}, explode=explode,
+    #                         labeldistance=.7)
+    # active_inactive_pie.legend(active_inactive_label, loc=[-.45, 0])
+    # active_inactive_pie.set_title('active / inactive')
+
+    #######################################################
+    # by_category_amount = []
+    #
+    # for elem in dm.get_data_from_file('cat'):
+    #     amount = 0
+    #     # print(type(elem))
+    #     for sub_elem in list:
+    #         # print(sub_elem['category'])
+    #         if sub_elem['category'] == elem and sub_elem['active'] == True:
+    #             amount += 1
+    #     # print(amount)
+    #     by_category_amount.append(amount)
+    # # print(by_category_amount)
+    # by_category_amount_copy = []
+    # categories_list = []
+    # explode = []
+    # for i, val in enumerate(by_category_amount):
+    #     if by_category_amount[i] != 0:
+    #         by_category_amount_copy.append(by_category_amount[i])
+    #         categories_list.append(dm.get_data_from_file('cat')[i])
+    #         print(val / sum(by_category_amount))
+    #         if val / sum(by_category_amount) > 0.05:
+    #             explode.append(explode_high)
+    #         else:
+    #             explode.append(explode_low)
+    # print(explode)
+    # print(categories_list)
+    # print(by_category_amount_copy)
+    # by_category_pie_active.pie(by_category_amount_copy, labels=by_category_amount_copy,
+    #                            shadow=False, textprops={'alpha': 1}, explode=explode,
+    #                            labeldistance=.7, center=([10, 10]))
+    # # by_category_pie_active.
+    # # by_category_pie_active.margins(200, 200)
+    # by_category_pie_active.legend(categories_list, loc=[-.45, 0])
+    # by_category_pie_active.set_title('by category (active)')
+    # # by_category_pie_active.tight_layout()
+    #########################################################
+    #
+    # by_platform_amount = []
+    #
+    # for elem in dm.get_data_from_file('plt'):
+    #     amount = 0
+    #     # print(type(elem))
+    #     for sub_elem in list:
+    #         # print(sub_elem['platform'])
+    #         if sub_elem['platform'] == elem and sub_elem['active'] == True:
+    #             amount += 1
+    #     # print(amount)
+    #     by_platform_amount.append(amount)
+    # # print(by_platform_amount)
+    # by_platform_amount_copy = []
+    # platforms_list = []
+    # explode = []
+    # for i, val in enumerate(by_platform_amount):
+    #     if by_platform_amount[i] != 0:
+    #         by_platform_amount_copy.append(by_platform_amount[i])
+    #         platforms_list.append(dm.get_data_from_file('plt')[i])
+    #         if val / sum(by_category_amount) > 0.05:
+    #             explode.append(explode_high)
+    #         else:
+    #             explode.append(explode_low)
+    # print(platforms_list)
+    # print(by_platform_amount_copy)
+    # by_platform_pie_active.pie(by_platform_amount_copy, labels=by_platform_amount_copy,
+    #                            shadow=False, textprops={'alpha': 1}, explode=explode,
+    #                            labeldistance=.7)
+    # by_platform_pie_active.legend(platforms_list, loc=[-.60, 0])
+    # by_platform_pie_active.set_title('by platform (active)')
+    # # by_platform_pie_active.tight_layout()
+    ##################################################################
+
+    # fig.tight_layout()
+    fig.subplots_adjust(top=0.85)
     plt.show()
