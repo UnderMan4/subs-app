@@ -4,8 +4,7 @@ from os import path
 from subscription import subscription as sub
 from expense import expense as exp
 from urllib.request import urlopen
-import data_manipulation as dm
-import gui
+from gui import gui
 import stats
 import random
 
@@ -134,4 +133,6 @@ if not os.path.isfile('data.json'):
 # dm.delete_all('sub')
 # stats.plot_period_stats_expenses('12.2015', '12.2018', category='food', place='Lewiatan')
 # stats.plot_stats_expenses('2010', '2016')
-# dm.delete_element('sub', '1')
+# dm.delete_element('plc', 'Lidl')
+
+gui()
