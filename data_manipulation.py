@@ -179,10 +179,16 @@ def delete_element(list_name, name):
     del valid
     list = get_data_from_file(list_name)
     for i, elem in enumerate(list):
-        print(elem['name'])
-        if elem['name'] == name:
-            del list[i]
-            break
+        if list_name in {'sub', 'exp'}:
+            print(elem['name'])
+            if elem['name'] == name:
+                del list[i]
+                break
+        if list_name in {'cat', 'plt', 'plc'}:
+            print(elem)
+            if elem == name:
+                del list[i]
+                break
     delete_all(list_name)
     for elem in list:
         if list_name == 'sub':
@@ -193,7 +199,7 @@ def delete_element(list_name, name):
             temp = expense(elem['name'], elem['date'], elem['amount'],
                            elem['place'], elem['category'])
         else:
-            temp = name
+            temp = elem
 
         add_element(list_name, temp)
 
