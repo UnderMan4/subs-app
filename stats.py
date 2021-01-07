@@ -157,14 +157,14 @@ def plot_stats_subscriptions():
         if by_category_amount[i] != 0:
             by_category_amount_copy.append(by_category_amount[i])
             categories_list.append(dm.get_data_from_file('cat')[i])
-            print(val / sum(by_category_amount))
+            # print(val / sum(by_category_amount))
             if val / sum(by_category_amount) > 0.05:
                 explode.append(explode_high)
             else:
                 explode.append(explode_low)
-    print(explode)
-    print(categories_list)
-    print(by_category_amount_copy)
+    # print(explode)
+    # print(categories_list)
+    # print(by_category_amount_copy)
     by_category_pie_all.pie(by_category_amount_copy, labels=by_category_amount_copy,
                             shadow=False, textprops={'alpha': 1}, explode=explode,
                             labeldistance=.7, center=([10, 10]))
@@ -198,8 +198,8 @@ def plot_stats_subscriptions():
                 explode.append(explode_high)
             else:
                 explode.append(explode_low)
-    print(platforms_list)
-    print(by_platform_amount_copy)
+    # print(platforms_list)
+    # print(by_platform_amount_copy)
     by_platform_pie_all.pie(by_platform_amount_copy, labels=by_platform_amount_copy,
                             shadow=False, textprops={'alpha': 1}, explode=explode,
                             labeldistance=.7)
@@ -216,10 +216,10 @@ def plot_stats_subscriptions():
         # print(elem['active'])
         if elem['active'] is True:
             active += 1
-            print(True)
+            # print(True)
         else:
             inactive += 1
-            print(False)
+            # print(False)
     active_inactive_amount = [active, inactive]
 
     active_inactive_pie.pie(active_inactive_amount, labels=active_inactive_amount,
@@ -248,14 +248,14 @@ def plot_stats_subscriptions():
         if by_category_amount[i] != 0:
             by_category_amount_copy.append(by_category_amount[i])
             categories_list.append(dm.get_data_from_file('cat')[i])
-            print(val / sum(by_category_amount))
+            # print(val / sum(by_category_amount))
             if val / sum(by_category_amount) > 0.05:
                 explode.append(explode_high)
             else:
                 explode.append(explode_low)
-    print(explode)
-    print(categories_list)
-    print(by_category_amount_copy)
+    # print(explode)
+    # print(categories_list)
+    # print(by_category_amount_copy)
     by_category_pie_active.pie(by_category_amount_copy, labels=by_category_amount_copy,
                                shadow=False, textprops={'alpha': 1}, explode=explode,
                                labeldistance=.7, center=([10, 10]))
@@ -289,8 +289,8 @@ def plot_stats_subscriptions():
                 explode.append(explode_high)
             else:
                 explode.append(explode_low)
-    print(platforms_list)
-    print(by_platform_amount_copy)
+    # print(platforms_list)
+    # print(by_platform_amount_copy)
     by_platform_pie_active.pie(by_platform_amount_copy, labels=by_platform_amount_copy,
                                shadow=False, textprops={'alpha': 1}, explode=explode,
                                labeldistance=.7)
@@ -322,11 +322,11 @@ def plot_period_stats_expenses(start, end, place=None, category=None):
     if bool(re.match('\d\d\d\d', start)):
         if (int(start) > int(end)):
             raise ValueError('start year must be earlier than end year ')
-        for i in range(int(start), int(end)):
+        for i in range(int(start), int(end)+1):
             dates.append(str(i))
         for elem in dates:
             dates_f.append(elem + '     ')
-
+        # print(dates)
         if place is None and category is None:
             fig.suptitle(f'Expenses yearly from {start} to {end}', fontsize=20)
         elif place is None:
@@ -338,8 +338,6 @@ def plot_period_stats_expenses(start, end, place=None, category=None):
 
         # for i, elem in enumerate(dates):
         #     values.append(float(get_expenses(dates[i], place, category)))
-
-
 
     if bool(re.match('\d\d\.\d\d\d\d', start)):
         start_d = re.split('\.', start)
@@ -355,7 +353,7 @@ def plot_period_stats_expenses(start, end, place=None, category=None):
         year = int(start_d[1])
         # print(start_d)
         # print(end_d)
-        while month != int(end_d[0]) or year != int(end_d[1]):
+        while month != int(end_d[0])+1 or year != int(end_d[1]):
             dates.append('{:02d}.{:04d}'.format(month, year))
             # print('{:02d}.{:04d}'.format(month, year))
             if month == 12:
@@ -377,7 +375,6 @@ def plot_period_stats_expenses(start, end, place=None, category=None):
 
     for i, elem in enumerate(dates):
         values.append(float(get_expenses(dates[i], place, category)))
-
 
     # print(dates)
     # print(values)
@@ -401,8 +398,8 @@ def plot_period_stats_expenses(start, end, place=None, category=None):
 
     plt.show()
 
-def plot_stats_expenses(start, end):
 
+def plot_stats_expenses(start, end):
     if not ((bool(re.match('\d\d\d\d', start)) and bool(re.match('\d\d\d\d', end))) or
             (bool(re.match('\d\d\.\d\d\d\d', start)) and bool(re.match('\d\d\.\d\d\d\d', end))) or
             (bool(re.match('\d\d\.\d\d\.\d\d\d\d', start)) and bool(re.match('\d\d\.\d\d\.\d\d\d\d', end)))):
@@ -432,6 +429,7 @@ def plot_stats_expenses(start, end):
             d = re.split('\.', elem['date'])
             if int(d[2]) >= int(start) and int(d[2]) <= int(end):
                 list_period.append(elem)
+    # print list_period
     if (bool(re.match('\d\d\.\d\d\d\d', start)) and bool(re.match('\d\d\.\d\d\d\d', end))):
         # print('month')
         start_f = re.split('\.', start)
@@ -467,18 +465,11 @@ def plot_stats_expenses(start, end):
                 if int(d[-1]) != int(start_f[-1]) and int(d[-1]) != int(end_f[-1]):
                     list_period.append(elem)
 
-
-
-
-
-
-
     # for elem in list_period:
-        # print(elem['date'])
+    #     print(elem['date'])
 
-
-        # print(d)
-        # if bool(re.match(f'{}'))
+    # print(d)
+    # if bool(re.match(f'{}'))
 
     #######################################################
     by_category_amount = []
@@ -635,22 +626,6 @@ def plot_stats_expenses(start, end):
     by_place_pie_sum.set_title('by place (amount)')
     # by_place_pie_all.tight_layout()
     ##################################################################
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     # active_inactive_label = ['active', 'inactive']
     # explode = [.04, .04]

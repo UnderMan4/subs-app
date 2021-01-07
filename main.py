@@ -7,6 +7,7 @@ from urllib.request import urlopen
 from gui import gui
 import stats
 import random
+import data_manipulation as dm
 
 # appdata = os.getenv('APPDATA') + '\Subs-App'
 # print(appdata)
@@ -100,7 +101,9 @@ if not os.path.isfile('data.json'):
 # print(stats.get_expenses("", place="Lidl"))
 # print(dm.search('exp', '2015'))
 # stats.plot_stats_subscriptions()
-# for i in range(200):
+# dm.delete_all('sub')
+# dm.delete_all('exp')
+# for i in range(500):
 #     name = str(i)
 #     d = random.randint(1, 28)
 #     m = random.randint(1, 12)
@@ -110,8 +113,8 @@ if not os.path.isfile('data.json'):
 #     place = random.choice(['Zabka', 'Biedronka', 'Lidl', 'Dino', 'Lewiatan'])
 #     category = random.choice(['movies', 'food', 'drink', 'alcohol', 'books', 'music'])
 #     dm.add_element('exp', exp(name=name, date=datee, amount=amount, place=place, category=category))
-
-# for i in range(200):
+#
+# for i in range(500):
 #     name = str(i)
 #     d = random.randint(1, 28)
 #     m = random.randint(1, 12)
@@ -130,9 +133,8 @@ if not os.path.isfile('data.json'):
 #     platform = random.choice(['Netflix', 'Google', 'Amazon', 'Spotify', 'Empik.com'])
 #     dm.add_element('sub', sub(name, datee, amount, platform, active, category))
 
-# dm.delete_all('sub')
-# stats.plot_period_stats_expenses('12.2015', '12.2018', category='food', place='Lewiatan')
-# stats.plot_stats_expenses('2010', '2016')
+# stats.plot_period_stats_expenses('05.2017', '05.2019', category='books', place='Lidl')
+# stats.plot_stats_expenses('2017', '2020')
 # dm.delete_element('plc', 'Lidl')
 
 gui()
