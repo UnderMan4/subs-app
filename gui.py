@@ -192,11 +192,11 @@ def gui():
     check_status.place(relx=0.50, rely=0.25, relwidth=0.22, relheight=0.05)
     check_monthly_expanses = tk.Button(root, text="Sprawdź Miesięczne Wydatki", padx=10, pady=10, fg="black", bg="#FFFFF7",
                                        command=lambda: st.plot_period_stats_expenses(
-                                           start=input("Wprowadź datę początkową "), end=input("Wprowadź datę końcową ")))
+                                           start=input("Wprowadź datę początkową (YYYY lub MM.YYYY) "), end=input("Wprowadź datę końcową (ten sam format co wyżej) ")))
     check_monthly_expanses.place(relx=0.10, rely=0.45, relwidth=0.24, relheight=0.05)
     check_stats = tk.Button(root, text="Sprawdź Statystyki Wydatków", padx=10, pady=10, fg="black", bg="#FFFFF7",
                             command=lambda: st.plot_stats_expenses(
-                                start=input("Wprowadź datę początkową "), end=input("Wprowadź datę końcową ")))
+                                start=input("Wprowadź datę początkową (YYYY, MM.YYYY lub DD.MM.YYYY) "), end=input("Wprowadź datę końcową (ten sam format co wyżej) ")))
     check_stats.place(relx=0.10, rely=0.55, relwidth=0.24, relheight=0.05)
 
 
